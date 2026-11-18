@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Plan your time outdoors in Rwanda with live weather forecasts and suitable activity windows.">
+        <meta name="color-scheme" content="dark">
+        <title>Wecast Rwanda | Your time outside</title>
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+
+    <body>
+        <a class="skip-link" href="#main">Skip to weather</a>
+        <div id="wecast-app" class="wecast-app">
+            <div class="wc-shell">
+                <header class="wc-header">
+                    <a class="wc-brand" href="index.html" data-page="index.html" aria-label="WeCast Rwanda overview"><span class="wc-brand-mark" data-icon="cloud-sun"></span><span><span class="wc-brand-name">WeCast </span><span class="wc-brand-country">Rwanda</span></span></a>
+                    <nav class="wc-nav" aria-label="Main navigation">
+                        <a href="index.html" data-page="index.html" aria-current="page">Overview</a>
+                        <a href="planner.html" data-page="planner.html">Activity planner</a>
+                    </nav>
+                    <a class="wc-course" href="https://open-meteo.com" target="_blank" rel="nonreferrer">Weather by Open-Meteo</a>
+                </header>
+
+                <main id="main" class="wc-page">
+                    <div class="wc-topline">
+                        <label class="wc-location">
+                            <span data-icon="pin"></span>
+                            <span class="sr-only">Choose a location</span>
+                            <select id="location-picker">
+                                <option value="Kigali">Kigali, Rwanda</option>
+                                <option value="Musanze">Musanze, Rwanda</option>
+                                <option value="Huye">Huye, Rwanda</option>
+                            </select>
+                        </label>
+                        <span class="wc-date" id="today-date">All times in Rwanda · CAT</span>
+                    </div>
+
+                    <div class="wc-status-row">
+                        <p class="wc-subtle" id="forecast-status" role="status">Loading the latest forecast...</p>
+                        <button id="refresh" class="wc-refresh" type="button"><span data-icon="refresh">Refresh</span></button>
+                    </div>
+
+                    <p id="forecast-error" class="wc-error" role="alert" hidden></p>
+                    <noscript><p class="wc-error">Enable Javascript to load forecasts and uses the activity planner.</p></noscript>
+
+                    <div id="weather-content" aria-busy="true" hidden>
+                        <div class="wc-hero">
+                            <section aria-label="Current Weather">
+                                <p class="wc-eyebrow">Weather at glance</p>
+                                <div class="wc-temperature">
+                                    <b data-current-temp="">-</b><span>°C</span>
+                                </div>
+                                <h1 id="condition" class="wc-condition">Loading conditions</h1>
+                                <p class="wc-subtle" id="conditions-time"></p>
+                                <dl class="wc-facts">
+                                    <div>
+                                        <dt><span data-icon="wind"></span>Wind</dt>
+                                        <dd><span data-current-wind>-</span> Km/h</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt><span data-icon="drop"></span>Rain Chance<span class="sr-only">for the current hour</span></dt>
+                                        <dd><span data-current-rain>-</span>%</dd>
+                                    </div>
+                                </dl>
+                            </section>
+
+                            <div id="weather-art" class="wc-weather-art" role="img" aria-label="Weather illustration" data-weather="unknown">
+                                <div class="wc-glow"></div>
+                                <div class="wc-sun"></div>
+                                <div class="wc-cloud-puff wc-puff-a"></div>
+                                <div class="wc-cloud-puff wc-puff-b"></div>
+                                <div class="wc-cloud-puff wc-puff-c"></div>
+                                <div class="wc-cloud-base"></div>
+                                <div class="wc-horizon"></div>
+                                <div class="wc-rain-drops">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div class="wc-lightning"></div>
+                                <div class="wc-unkown">-</div>
+                            </div>
+
+                            <aside class="wc-week" aria-label="Three-day forecast">
+                                <h2 class="wc-eyebrow">The next 3 days</h2>
+                                <div class="wc-weeks-rows" id="daily-forecast"></div>
+                            </aside>
+                        </div>
+
+                        <section class="wc-hourly" aria-labelledby="hourly-heading">
+                            <div class="wc-section-heading">
+                                <h2 id="hourly-heading">Today, hour by hour</h2>
+                                <span class="wc-subtle">Rain chance for the hour starting at each time</span>
+                            </div>
+
+                            <div class="wc-hour-grid" id="hourly-forecast"></div>
+                            <p class="wc-data-note">Temperature and wind are forecast samples at the end of each hour.</p>
+                        </section>
+
+                        <section class="wc-window-banner" aria-label="Suggested outdoor window">
+                            <div>
+                                <p class="wc-bunner-title">A little less rain. A little more outside.</p>
+                                <h2 class="wc-bunner-time" id="window-time">Finding your next window...</h2>
+                                <p class="wc-subtle" id="window-detail"></p>
+                            </div>
+                            <a id="open-planner" class="wc-button" href="planner.html">Plan your time outside<span data-icon="arrow"></span></a>
+                        </section>
+
+                        <p class="wc-disclaimer">Forecasts guide plans; conditions can change. Recommendations are not a guarantee of dry or safe conditions.</p>
+                    </div>
+
+                    <footer class="wc-footer">
+                        <span>Weather by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · locations by <a href="https://www.geonames.org/" target="_blank" rel="noreferrer">Geonames</a></span>
+                        <span>
+                            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a> · forecasts processed into planning windows by WeCast
+                        </span>
+                    </footer>
+                </main>
+
+            </div>
+
+        </div>
+
+        <script type="module" src="js/app.js"></script>
+    </body>
+</html>

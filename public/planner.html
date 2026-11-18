@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Search Rwanda and find upcoming outdoor activity windows based on hourly rain forecasts.">
+        <meta name="color-scheme" content="dark">
+        <title>Activity Planner | WeCast Rwanda</title>
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+
+    <body>
+        <a class="skip-link" href="#main">Skip to planner</a>
+        <div id="wecast-app" class="wecast-app">
+            <div class="wc-shell">
+                <header>
+                    <a class="wc-brand" href="index.html" data-page="index.html" aria-label="WeCast Rwanda overview"><span class="wc-brand-mark" data-icon="cloud-sun"></span><span><span class="wc-brand-name">WeCast</span><span class="wc-brand-country">Rwanda</span></span></a>
+                    <nav class="wc-nav" aria-label="Main navigation">
+                        <a href="index.html" data-page="index.html">Overview</a>
+                        <a href="planner.html" data-page="planner.html" aria-current="page">Activity Planner</a>
+                    </nav>
+                    <a href="https://open-meteo.com" class="wc-source" target="_blank" rel="noreferrer">Weather by Open-Meteo</a>
+                </header>
+
+                <main id="main" class="wc-page">
+                    <div class="wc-topline">
+                        <div>
+                            <p class="wc-eyebrow">Make room for the outdoors</p>
+                            <h1 class="wc-planner-title">Find your weather window.</h1>
+                            <p class="wc-planner-subtitle">Choose a place, a day, and how long you need.</p>
+                        </div>
+                        <span class="wc-date">All times in Rwanda · CAT</span>
+                    </div>
+
+                    <form class="wc-search" id="search-form" novalidate>
+                        <label for="" class="wc-search-field">
+                            <span data-icon="search"></span>
+                            <span class="sr-only">Search a place in Rwanda</span>
+                            <input type="search" id="location-search" placeholder="Search a place in Rwanda" maxlength="80" autocomplete="off" aria-describedby="search-message">
+                        </label>
+                        <button id="search-button" class="wc-button" type="submit">Search</button>
+                    </form>
+
+                    <p id="search-message" class="wc-search-message" role="status">Search locations within Rwanda.</p>
+                    <div id="search-results" class="wc-search-results" role="group" aria-label="Matching locations"></div>
+                    <div class="wc-filters">
+                        <label for="planning-day" class="wc-field">Planning day
+                            <select id="planning-day">
+                                <option value="">Loading dates...</option>
+                            </select>
+                        </label>
+                        <label class="wc-field" for="duration">Time outdoors
+                            <select id="duration">
+                                <option value="1">1 hour</option>
+                                <option value="2">2 hours</option>
+                                <option value="3">3 hours</option>
+                            </select>
+                        </label>
+                        <label class="wc-field" for="rain-limit">Maximum rain Chance
+                            <select id="rain-limit">
+                                <option value="10">10%</option>
+                                <option value="20">20%</option>
+                                <option value="40">40%</option>
+                                <option value="60">60%</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="wc-status-row">
+                        <p id="forecast-status" class="wc-subtle" role="status">Loading the latest forecast...</p>
+                        <button id="refresh" class="wc-refresh" type="button"><span data-icon="refresh"></span>Refresh</button>
+                    </div>
+                    <p id="forecast-error" class="wc-error" role="alert" hidden></p>
+                    <noscript><p class="wc-error">Enable JavaScript to search locations and calculate activity windows.</p></noscript>
+
+                    <div id="weather-content" aria-busy="true" hidden>
+                        <div class="wc-detail-grid">
+                            <div>
+                                <section class="wc-detail-summary" aria-label="Selected location forecast">
+                                    <div>
+                                        <h2 id="selected-place" class="wc-city-name">Kigali</h2>
+                                        <p class="wc-subtle" id="selected-hour"></p>
+                                        <div class="wc-small-temp">
+                                            <span data-forecast-temp>-</span><small> °C</small>
+                                        </div>
+                                    </div>
+                                    <span id="forecast-icon" class="wc-detail-icon" aria-hidden="true"></span>
+                                </section>
+
+                                <section class="wc-hourly wc-detail-hourly" aria-labelledby="hourly-heading">
+                                    <div class="wc-section-heading">
+                                        <h2 id="hourly-heading">Upcoming planning hours</h2>
+                                        <span class="wc-subtle">°C · rain chance</span>
+                                    </div>
+                                    <div class="wc-hour-grid" id="hourly-forecast"></div>
+                                    <p class="wc-data-note">Rain chance applies to the hour starting at the shown time. Temperature and wind are sampled at its end.</p>
+                                </section>
+
+                                <section class="wc-conditions" aria-labelledby="conditions-heading">
+                                    <h2 id="conditions-heading" class="wc-eyebrow">Forecast conditions</h2>
+                                    <dl class="wc-condition-grid">
+                                        <div>
+                                            <dt>Temperature</dt>
+                                            <dd><span data-forecast-temp>-</span> °C</dd>
+                                        </div>
+                                        <div>
+                                            <dt>Rain chance</dt>
+                                            <dd><span id="forecast-rain">-</span>%</dd>
+                                        </div>
+                                        <div>
+                                            <dt>Wind</dt>
+                                            <dd><span id="forecast-wind">-</span>Km/h</dd>
+                                        </div>
+                                    </dl>
+                                </section>
+
+                                <p class="wc-disclaimer">Recommendations compare forecasts; they are not a guarantee of dry or safe conditions. Missing data is excluded from recommendations.</p>
+                            </div>
+                    
+
+                            <aside class="wc-recommendations" aria-labelledby="">
+                                <h2 id="recommendations-heading">Your outdoor windows</h2>
+                                <p id="window-context" class="wc-recommendation-intro"></p>
+                                <div id="recommendations" aria-live="polite"></div>
+                                <p class="wc-method">Lowest peak rain chance first, then average chance, wind, and earliest start. Each hour must meet your rain limit, with temperature 12-32°C, wind up to 25 Km/h, and no forecast thunderstorm. Planning hours: 06:00-18:00</p>
+                            </aside>
+                        </div>
+                    </div>
+
+                    <footer class="wc-footer">
+                        <a href="index.html" data-page="index.html"> Back to overview</a>
+                        <span><a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · <a href="https://www.geonames.org" target="_blank" rel="noreferrer">Geonames</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a></span>
+                    </footer>
+                </main>
+            </div>
+        </div>
+
+        <script type="module" src="js/planner.js"></script>
+    </body>
+</html>
