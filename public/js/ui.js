@@ -112,7 +112,7 @@ export function updateUrl(place, preferences = {}) {
     );
 }
 
-export function forecastDAyLabel(day, now = Date.now()) {
+export function forecastDayLabel(day, now = Date.now()) {
     return day.date === dateKey(now) ? "Today" : dayLabel(day.time);
 }
 
@@ -122,10 +122,10 @@ export function renderDays(container, days, place) {
         const link = element("a", "wc-week-row");
         link.href = pageHref("planner.html", place, { date: day.date });
         const label = element("div", "", forecastDayLabel(day));
-        label.append(element("small", "", condition(day.node).label));
+        label.append(element("small", "", condition(day.code).label));
         const values = element("span", "", `${number(day.max)}°`);
         values.append(element("span", "wc-low", `/ ${number(day.min)}°`));
-        link.append(label, icon(condition(day.node).icon), values);
+        link.append(label, icon(condition(day.code).icon), values);
         container.append(link);
     }
 }
@@ -163,7 +163,7 @@ export function renderHours(container, rows, best = null) {
     }
 }
 
-export function renderArtWork(host, code, isDay) {
+export function renderArtwork(host, code, isDay) {
     const weather = condition(code);
     host.dataset.weather = weather.icon;
     host.dataset.night = isDay === 0 ? "true" : "false";

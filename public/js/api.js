@@ -86,10 +86,10 @@ export function parseForecast(data) {
 export async function requestJson(url, { refresh = false, parse = value => value, fetcher = globalThis.fetch, timeoutMs = 1000 } = {}) {
     const key = String(url), previous = cache.get(key);
     if (!refresh && previous && Date.now() - previous.fetchedAt < CACHE_MS) return { ...previous, cached: true };
-    const controller = new AbortController(), timer = setTimeout(() => controller.abort, timeoutMs);
+    const controller = new AbortController(), timer = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-        const response = await fetcher(url, { signal: controller.signal, credentials: 'omit', mode: 'cors '});
+        const response = await fetcher(url, { signal: controller.signal, credentials: 'omit', mode: "cors"});
         if (!response.ok) {
             if (response.status === 429) throw new ApiError('The weather service is busy. Wait a minute, then try again.');
             throw new ApiError(`The weather service could not complete this request (HTTP ${response.status}). Please try again.`);
@@ -107,6 +107,7 @@ export async function requestJson(url, { refresh = false, parse = value => value
         cache.set(key, result);
         return result;
     } catch (error) {
+        console.error(error);
         if (error instanceof ApiError) throw error;
         if (controller.signal.aborted) throw new ApiError('The weather request took too long. Please try again.');
         throw new ApiError('Could not reach the weather service. Check your internet connection, then try again.');
@@ -114,7 +115,29 @@ export async function requestJson(url, { refresh = false, parse = value => value
 }
 
 export const getForecast = (place, options = {}) => requestJson(forecastUrl(place), { ...options, parse: parseForecast});
-export const searchLocations = (query, options = {}) => requestJson(searchUrl(query), { ...options, parse: parseLocations});
+export async function searchLocations(query, options = {}) {
+  const result = await requestJson(searchUrl(query), {
+    ...options,
+    parse: parseLocations,
+  });
+
+  const name = query.trim().toLowerCase();
+  if (name !== "rusizi" && name !== "rusizi district") return result;
+
+  const district = {
+    name: "Rusizi District",
+    latitude: -2.5702,
+    longitude: 29.0754,
+    country_code: "RW",
+    admin1: "Western Province",
+  };
+
+  const otherMatches = result.data.filter(
+    (place) => !(place.name === district.name && place.admin1 === district.admin1),
+  );
+
+  return { ...result, data: [district, ...otherMatches] };
+}
 
 export async function quickLocation(name) {
     if (name === 'Kigali') return { ...DEFAULT_LOCATION }

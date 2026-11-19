@@ -1282,6 +1282,10 @@ body {
     display: flex;
 }
 
+.wc-hour-grid > .wc-empty {
+  grid-column: 1 / -1;
+}
+
 @media(max-width:850px) {
     .wecast-app .wc-source {
         width: 100%;
@@ -1330,4 +1334,53 @@ body {
         display: inline-flex;
         align-items: center;
     }
+}
+
+/* Navigation buttons */
+.wecast-app .wc-nav {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wecast-app .wc-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--wc-raised);
+  border-radius: 999px;
+  background-color: var(--wc-panel);
+  color: var(--wc-soft);
+}
+
+.wecast-app .wc-nav a[aria-current="page"] {
+  background-color: var(--wc-text);
+  border-color: var(--wc-text);
+  color: var(--wc-bg);
+}
+
+/* Overview location picker and planner filters */
+.wecast-app .wc-location select,
+.wecast-app .wc-field select {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--wc-raised);
+  border-radius: 12px;
+  background-color: var(--wc-panel);
+  color: var(--wc-text);
+  color-scheme: dark;
+}
+
+@media (hover: hover) {
+  .wecast-app .wc-nav a:not([aria-current="page"]):hover {
+    background-color: var(--wc-raised);
+    border-color: var(--wc-muted);
+    color: var(--wc-text);
+  }
+
+  .wecast-app .wc-location select:hover,
+  .wecast-app .wc-field select:hover {
+    border-color: var(--wc-muted);
+  }
 }

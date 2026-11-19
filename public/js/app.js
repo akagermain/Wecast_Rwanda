@@ -1,12 +1,12 @@
 import { CACHE_MS, DEFAULT_LOCATION, getForecast, quickLocation } from './api.js';
 import { TIMEZONE, condition, dateKey, dayLabel, nextWindow, rangeLabel, timeLabel } from './weather.js';
-import { initializeIcons, locationFromUrl, number, pageHref, renderArtwork, renderDays, renderHours, setText, fetchedLabel, updatedNavigation, updateUrl } from './ui.js';
+import { initializeIcons, locationFromUrl, number, pageHref, renderArtwork, renderDays, renderHours, setText, fetchedLabel, updateNavigation, updateUrl } from './ui.js';
 
 
 initializeIcons();
 const picker = document.querySelector("#location-picker");
 const content = document.querySelector("#weather-content");
-const status = document.querySelector("forecast-status");
+const status = document.querySelector("#forecast-status");
 const error = document.querySelector("#forecast-error");
 const refresh = document.querySelector("#refresh");
 const state = {
@@ -53,7 +53,7 @@ function render() {
     );
 
     renderArtwork(
-        document.querySelector("Weather-art"),
+        document.querySelector("#weather-art"),
         currentFresh ? current.code : null,
         currentFresh ? current.isDay : null,
     );
@@ -114,7 +114,7 @@ async function load(resolvePlace = async () => state.place, force = false) {
     error.hidden = true;
     refresh.disabled =  true;
     content.setAttribute("aria-busy", "true");
-    status.textContent = "Loading the latest forecast...";
+    status.textContent = "Loading the latest forecast…";
 
     try {
         const place = await resolvePlace();
@@ -124,7 +124,7 @@ async function load(resolvePlace = async () => state.place, force = false) {
         state.place = place;
         state.result = result;
         syncPicker();
-        updatedNavigation(place);
+        updateNavigation(place);
         updateUrl(place);
         render();
         content.hidden = false;
