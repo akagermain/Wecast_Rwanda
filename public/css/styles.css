@@ -1384,3 +1384,93 @@ body {
     border-color: var(--wc-muted);
   }
 }
+
+
+@supports (appearance: base-select) and selector(::picker(select)) {
+    .wecast-app select,
+    .wecast-app select::picker(select) {
+        appearance: base-select;
+    }
+
+    .wecast-app select {
+        gap: 12px;
+    }
+
+    .wecast-app select:focus-visible {
+        outline-offset: 3px;
+    }
+
+    .wecast-app select::picker(select) {
+        margin-block: 8px;
+        max-block-size: min(18rem, 45vh);
+        padding: 6px;
+        overflow-y: auto;
+        border: 1px solid var(--wc-raised);
+        border-radius: 14px;
+        background: var(--wc-panel);
+        color: var(--wc-text);
+        box-shadow: 0 12px 32px rgb(0 0 0 / 45%);
+    }
+
+    .wecast-app select option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-block-size: 44px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .wecast-app select option:checked {
+        background: var(--wc-raised);
+        font-weight: 600;
+    }
+
+    .wecast-app select option:is(:hover, :focus) {
+        background: var(--wc-raised);
+        outline: 1px solid var(--wc-muted);
+        outline-offset: -1px;
+    }
+
+    .wecast-app select option::checkmark {
+        order: 1;
+        margin-inline-start: auto;
+    }
+
+    .wecast-app select::picker-icon {
+        color: var(--wc-soft);
+    }
+
+    .wecast-app select:open::picker-icon {
+        rotate: 180deg;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .wecast-app select::picker(select) {
+            opacity: 0;
+            translate: 0 -4px;
+            transition:
+                opacity 180ms ease-in-out,
+                translate 180ms ease-in-out,
+                display 180ms allow-discrete,
+                overlay 180ms allow-discrete;
+        }
+
+        .wecast-app select:open::picker(select) {
+            opacity: 1;
+            translate: 0 0;
+        }
+
+        @starting-style {
+            .wecast-app select:open::picker(select) {
+                opacity: 0;
+                translate: 0 -4px;
+            }
+        }
+
+        .wecast-app select::picker-icon {
+            transition: rotate 180ms ease-in-out;
+        }
+    }
+}
