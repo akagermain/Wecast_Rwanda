@@ -1474,3 +1474,11 @@ body {
         }
     }
 }
+
+.wecast-app .wc-search-field input:focus {
+    outline: none;
+}
+
+.wecast-app .wc-search-field:focus-within {
+    border-color: var(--wc-muted);
+}

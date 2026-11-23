@@ -1,0 +1,48 @@
+WeCast deployment check — 20261122T215858Z
+
+Homepage redirect
+HTTP/1.1 302 Found
+location: https://www.agermain.tech/wecast/
+HTTP/1.1 200 OK
+
+Load balancing
+
+Request 1
+HTTP/1.1 200 OK
+x-served-by: Web01
+
+Request 2
+HTTP/1.1 200 OK
+x-served-by: Web02
+
+Request 3
+HTTP/1.1 200 OK
+x-served-by: Web01
+
+Request 4
+HTTP/1.1 200 OK
+x-served-by: Web02
+
+Request 5
+HTTP/1.1 200 OK
+x-served-by: Web01
+
+Request 6
+HTTP/1.1 200 OK
+x-served-by: Web02
+
+Request 7
+HTTP/1.1 200 OK
+x-served-by: Web01
+
+Request 8
+HTTP/1.1 200 OK
+x-served-by: Web02
+
+Request 9
+HTTP/1.1 200 OK
+x-served-by: Web01
+
+Request 10
+HTTP/1.1 200 OK
+x-served-by: Web02
