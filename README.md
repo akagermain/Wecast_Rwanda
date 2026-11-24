@@ -112,7 +112,7 @@ Open-Meteo attribution requirements: [licence page](https://open-meteo.com/en/li
 
 ## Architecture
 
-```mermaid
+```
 flowchart LR
   Visitor[Visitor browser] --> LB[LB01: Nginx]
   LB --> W1[Web01: Nginx static files]
